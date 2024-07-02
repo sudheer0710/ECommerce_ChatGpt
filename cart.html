@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Setter - Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-container">
+            <h1 class="logo">Trend Setter</h1>
+            <nav>
+                <ul class="menu-items">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar -->
+    <aside class="cart-sidebar">
+        <h2>Your Cart</h2>
+        <ul id="cart-list" class="cart-list">
+            <!-- Cart items will be dynamically added here -->
+        </ul>
+        <div class="cart-summary">
+            <div class="subtotal">Subtotal: <span id="cart-subtotal">$0.00</span></div>
+            <div class="taxes">Taxes (10%): <span id="cart-taxes">$0.00</span></div>
+            <div class="total">Total: <span id="cart-total">$0.00</span></div>
+        </div>
+        <button id="place-order-btn">Place Order</button>
+    </aside>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Fetch cart items from localStorage or sessionStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartList = document.getElementById('cart-list');
+            let cartTotal = 0;
+
+            // Clear existing items
+            cartList.innerHTML = '';
+
+            // Add items to cart list
+            cartData.forEach(item => {
+                const cartLi = document.createElement('li');
+                cartLi.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartList.appendChild(cartLi);
+
+                // Calculate subtotal
+                cartTotal += item.price;
+            });
+
+            // Update totals
+            const subtotal = cartTotal.toFixed(2);
+            const taxes = (cartTotal * 0.1).toFixed(2); // Assuming 10% tax rate
+            const total = (parseFloat(subtotal) + parseFloat(taxes)).toFixed(2);
+
+            document.getElementById('cart-subtotal').textContent = `$${subtotal}`;
+            document.getElementById('cart-taxes').textContent = `$${taxes}`;
+            document.getElementById('cart-total').textContent = `$${total}`;
+
+            // Place Order button event listener
+            document.getElementById('place-order-btn').addEventListener('click', function() {
+                // Simulate placing order (you can add actual order processing logic here)
+                // For now, clear the cart after placing order (optional)
+                localStorage.removeItem('cart');
+
+                // Redirect to order confirmation page
+                window.location.href = 'order-confirmation.html';
+            });
+        });
+    </script>
+</body>
+</html>
